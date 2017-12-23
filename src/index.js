@@ -1,7 +1,5 @@
-import { combineReducers } from 'redux';
+import answer from 'the-answer';
 
-const reducer = (state = '', action) => state;
-
-export default combineReducers({
-  reducer,
-})
+export default () => {
+  console.log(`the answer is ${answer}`);
+};
