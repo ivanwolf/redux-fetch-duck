@@ -1,0 +1,24 @@
+{
+  "name": "fetch-duck",
+  "version": "0.1.0",
+  "description": "Redux duck to fecth a single resource",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivanwolf15/fetch-duck.git"
+  },
+  "keywords": [
+    "redux",
+    "duck",
+    "redux-thunk"
+  ],
+  "author": "Iván Wolf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivanwolf15/fetch-duck/issues"
+  },
+  "homepage": "https://github.com/ivanwolf15/fetch-duck#readme"
+}
