@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/ivanwolf15/fetch-duck/issues"
   },
-  "homepage": "https://github.com/ivanwolf15/fetch-duck#readme"
+  "homepage": "https://github.com/ivanwolf15/fetch-duck#readme",
+  "dependencies": {
+    "redux": "^3.7.2"
+  }
 }
