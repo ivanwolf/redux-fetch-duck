@@ -2,7 +2,7 @@
   "name": "redux-fetch-duck",
   "version": "0.1.0",
   "description": "Simple and flexible API for creating a Redux module to manage a single fetch request.",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
     "build": "rollup -c",
