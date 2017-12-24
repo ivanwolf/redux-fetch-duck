@@ -1,19 +1,20 @@
 {
-  "name": "fetch-duck",
+  "name": "redux-fetch-duck",
   "version": "0.1.0",
-  "description": "Redux duck to fecth a single resource",
+  "description": "Simple and flexible API for creating a Redux module to manage a single fetch request.",
   "main": "src/index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
     "build": "rollup -c",
-    "dev": "rollup -c --watch"
+    "dev": "rollup -c --watch",
+    "docs": "jsdoc src/index.js"
   },
   "jest": {
     "browser": true
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ivanwolf15/fetch-duck.git"
+    "url": "git+https://github.com/ivanwolf15/redux-fetch-duck.git"
   },
   "keywords": [
     "redux",
@@ -21,11 +22,11 @@
     "redux-thunk"
   ],
   "author": "Iván Wolf",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ivanwolf15/fetch-duck/issues"
+    "url": "https://github.com/ivanwolf15/redux-fetch-duck/issues"
   },
-  "homepage": "https://github.com/ivanwolf15/fetch-duck#readme",
+  "homepage": "https://github.com/ivanwolf15/redux-fetch-duck#readme",
   "dependencies": {
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
