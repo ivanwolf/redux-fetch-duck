@@ -66,7 +66,7 @@ export function thunkCreator(resourceName, callApi, dataSelector = null, errorSe
  * Returns a High order reducer wich manages the fetching resource
  * @param {String} resourceName 
  */
-export const withFetch = resourceName => {
+export function withFetch(resourceName) {
   const fetchTypes = types(resourceName);
   /** Error reducer */
   const error = (state = null, action) => {
@@ -79,8 +79,13 @@ export const withFetch = resourceName => {
       return state;
     }
   };
-  /** Loading reducer */
-  const loading = (state = false, action) => {
+  /**
+   * Loading reducer, manages the loading flag
+   * @param {State} state 
+   * @param {Object} action 
+   * @returns {State}
+   */
+  function loading(state = false, action) {
     switch (action.type) {
     case fetchTypes.failure:
     case fetchTypes.success:
@@ -105,24 +110,25 @@ export const withFetch = resourceName => {
    * Creates a new reducer. The final funcion manage the same state and error, loading and data state
    * @param {Function} targetReducer - Reducer to be merged
    */
-  const hor = (targetReducer = null) => (state, action) => {
-    let targetState = typeof targetReducer === 'function'
-      ? targetReducer(state, action)
-      : undefined;
-    if (typeof targetReducer === 'function' && typeof targetState !== 'object') {
-      targetState = {
-        [targetReducer.name]: targetState,
-      };
-    }
-
-    const fetchState = combineReducers({
-      data,
-      loading,
-      error,
-    })(state, action);
-    return Object.assign({}, targetState, fetchState);
-  };
-
+  function hor(targetReducer = null) {
+    return (state, action) => {
+      let targetState = typeof targetReducer === 'function'
+        ? targetReducer(state, action)
+        : undefined;
+      if (typeof targetReducer === 'function' && typeof targetState !== 'object') {
+        targetState = {
+          [targetReducer.name]: targetState,
+        };
+      }
+  
+      const fetchState = combineReducers({
+        data,
+        loading,
+        error,
+      })(state, action);
+      return Object.assign({}, targetState, fetchState);
+    };
+  } 
   return hor;
-};
+}
 
