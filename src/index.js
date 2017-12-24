@@ -53,15 +53,14 @@ export function thunkCreator(resourceName, callApi, dataSelector = null, errorSe
           ? dataSelector(res)
           : res;
         dispatch(actions.success(data));
-      })
-      .catch(err => {
+      }, err => {
         const error = typeof errorSelector === 'function'
           ? errorSelector(err)
           : err;
         dispatch(actions.failure(error));
       });
   };
-};
+}
 /**
  * Returns a High order reducer wich manages the fetching resource
  * @param {String} resourceName 
