@@ -36,18 +36,18 @@ export const actionCreators = resourceName => {
 };
 
 /**
- * Create the fetch thunk
+ * Create the fetch thunk creator
  * @param {string} resourceName - The name of the resource beeing fetched
- * @param {promise} request - Promise object representing the API call where de data is fetched,
- * must resolve to a data object and reject to a en error object.
+ * @param {function} callApi - This function must returns a promise wich resolve with the data object and reject to a en error object.
  * @param {function} dataSelector - Function to select the data payload from the response object
  * @param {function} errorSelector - Function to select the error payload from the response
+ * @returns {function} thunkCreator - When this function is called with args and dispatched, the api is called with args.
  */
 export function thunkCreator(resourceName, callApi, dataSelector = null, errorSelector = null) {
   const actions = actionCreators(resourceName);
-  return () => function (dispatch) {
+  return (...args) => function (dispatch) {
     dispatch(actions.request());
-    return callApi()
+    return callApi(...args)
       .then(res => {
         const data = typeof dataSelector === 'function'
           ? dataSelector(res)

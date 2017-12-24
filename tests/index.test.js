@@ -66,6 +66,13 @@ describe('Thunk creator', () => {
       expect(callApi).toHaveBeenCalled();
     });
   });
+  it('should pass the args to the API call', () => {
+    const getRegions = thunkCreator(REGIONS, callApi);
+    const store = mockStore({});
+    return store.dispatch(getRegions('someToken')).then(() => {
+      expect(callApi).toHaveBeenCalledWith('someToken');
+    });
+  });
   it('should dispatch GET_RESOURCE_REQUEST', () => {
     const getRegions = thunkCreator(REGIONS, callApi);
     const store = mockStore({});
