@@ -37,22 +37,29 @@ export const actionCreators = resourceName => {
 
 /**
  * Create the fetch thunk
- * @param {String} resourceName - The name of the resource beeing fetched
- * @param {Promise} request - Promise object representing the API call where de data is fetched,
+ * @param {string} resourceName - The name of the resource beeing fetched
+ * @param {promise} request - Promise object representing the API call where de data is fetched,
  * must resolve to a data object and reject to a en error object.
- * @param {Function} dataSelector - Function to select the data payload from the response object
- * @param {Funtion} errorSelector - Function to select the error payload from the response
+ * @param {function} dataSelector - Function to select the data payload from the response object
+ * @param {function} errorSelector - Function to select the error payload from the response
  */
-export const getResourceThunk = (resourceName, request, dataSelector, errorSelector) => {
+export function thunkCreator(resourceName, callApi, dataSelector = null, errorSelector = null) {
   const actions = actionCreators(resourceName);
-  return () => async (dispatch) => {
+  return () => function (dispatch) {
     dispatch(actions.request());
-    try {
-      const res = await request;
-      dispatch(actions.success(dataSelector(res)));
-    } catch (error) {
-      dispatch(actions.failure(errorSelector(error)));
-    }
+    return callApi()
+      .then(res => {
+        const data = typeof dataSelector === 'function'
+          ? dataSelector(res)
+          : res;
+        dispatch(actions.success(data));
+      })
+      .catch(err => {
+        const error = typeof errorSelector === 'function'
+          ? errorSelector(err)
+          : err;
+        dispatch(actions.failure(error));
+      });
   };
 };
 /**
@@ -99,9 +106,14 @@ export const withFetch = resourceName => {
    * @param {Function} targetReducer - Reducer to be merged
    */
   const hor = (targetReducer = null) => (state, action) => {
-    const targetState = typeof targetReducer === 'function'
+    let targetState = typeof targetReducer === 'function'
       ? targetReducer(state, action)
       : undefined;
+    if (typeof targetReducer === 'function' && typeof targetState !== 'object') {
+      targetState = {
+        [targetReducer.name]: targetState,
+      };
+    }
 
     const fetchState = combineReducers({
       data,

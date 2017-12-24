@@ -90,7 +90,7 @@ Temporary Items
 .apdisk
 
 # Dis
-
+/out
 /dist
 
 # End of https://www.gitignore.io/api/osx,node
