@@ -6,9 +6,9 @@ import { combineReducers } from 'redux';
 export const types = resourceName => {
   const RESOURCE = resourceName.toUpperCase();
   return {
-    request: `GET_${RESOURCE}_REQUEST`,
-    success: `GET_${RESOURCE}_SUCCESS`,
-    failure: `GET_${RESOURCE}_FAILURE`,
+    request: `fetch-duck/GET_${RESOURCE}_REQUEST`,
+    success: `fetch-duck/GET_${RESOURCE}_SUCCESS`,
+    failure: `fetch-duck/GET_${RESOURCE}_FAILURE`,
   };
 };
 
