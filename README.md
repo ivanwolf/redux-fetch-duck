@@ -1,8 +1,8 @@
 # redux-fetch-duck
-Simple and flexible API for creating a [redux](https://redux.js.org/) module to manage a single fetch request, features loading and error states. 
+Simple and flexible API for creating a [redux](https://redux.js.org/) duck to manage a single fetch request, features loading and error states. 
 
 ## Instalation
-A commonjs module is exposed. It requires redux and [redux-thunk](https://github.com/ivanwolf15/redux-fetch-duck.git) to be installed.
+It requires redux and thunk middleware.
 ```javascript
 $ yarn add redux-fetch-duck redux redux-thunk
 ```
@@ -98,8 +98,8 @@ const calls = (state = 0, action) => {
   }
 };
 
-// pass the reducer as second argument
-export default withFetch('users')(calls)
+// pass the reducer to be combined, it calls combineReducer under the hood.
+export default withFetch('users')({ calls })
 ```
 The new initial state will be
 ```javascript
@@ -115,7 +115,7 @@ The new initial state will be
 
 ## Motivation
 
-This module aims to reduce the boilerplate generated when you adopt this common pattern in Redux based apps.
+This module aims to reduce the boilerplate generated when you adopt [this](https://redux.js.org/docs/advanced/AsyncActions.html) common pattern in Redux based apps.
 
 ## Test
 
