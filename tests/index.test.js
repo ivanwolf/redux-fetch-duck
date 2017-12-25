@@ -115,27 +115,19 @@ describe('The high order reducer', () => {
     const state = reducer(undefined, {});
     expect(state).toEqual(initialState);
   });
-  it('should create new key if target reducer state is not an object', () => {
+  it('combine the reducers passed as args', () => {
     const count = (state = 5, action) => state;
-    const reducer = hor(count);
+    const red = (state = { some: 'state', key: 'value' }, action) => state;
+    const reducer = hor({ count, red });
     const initialState = {
       data: null,
       error: null,
       loading: false,
       count: 5,
-    };
-    const state = reducer(undefined, {});
-    expect(state).toEqual(initialState);
-  });
-  it('should spread target reducer state', () => {
-    const prevReducer = (state = { some: 'state', key: 'value' }, action) => state;
-    const reducer = hor(prevReducer);
-    const initialState = {
-      data: null,
-      error: null,
-      loading: false,
-      some: 'state',
-      key: 'value',
+      red: {
+        some: 'state',
+        key: 'value',
+      }
     };
     const state = reducer(undefined, {});
     expect(state).toEqual(initialState);

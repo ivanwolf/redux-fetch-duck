@@ -109,21 +109,13 @@ export function withFetch(resourceName) {
    * Creates a new reducer. The final funcion manage the same state and error, loading and data state
    * @param {Function} targetReducer - Reducer to be merged
    */
-  function hor(targetReducer = null) {
-    if (typeof targetReducer !== 'function') {
-      return combineReducers({
-        data,
-        loading,
-        error,
-      });
-    }
-    return combineReducers({
+  function combine(reducers) {
+    return combineReducers(Object.assign({}, reducers, {
       data,
       loading,
       error,
-      [targetReducer.name]: targetReducer,
-    });
-  } 
-  return hor;
+    }));
+  }
+  return combine;
 }
 
