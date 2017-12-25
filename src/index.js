@@ -108,7 +108,7 @@ export const thunkCreator = (resourceName, callApi, dataSelector = null, errorSe
   };
 };
 /**
- * Returns a High order reducer wich creates the fetching resource and combine other reducers.
+ * Returns wrap combineReducers. I adds loading, data and error reducers.
  * @param {string} resourceName 
  * @return {function}
  */
@@ -124,7 +124,7 @@ export function withFetch(resourceName) {
       return state;
     }
   };
-  function loading(state = false, action) {
+  const loading = (state = false, action) => {
     switch (action.type) {
     case fetchTypes.failure:
     case fetchTypes.success:
@@ -134,7 +134,7 @@ export function withFetch(resourceName) {
     default:
       return state;
     }
-  }
+  };
   const data = (state = null, action) => {
     switch (action.type) {
     case fetchTypes.success:
@@ -144,17 +144,12 @@ export function withFetch(resourceName) {
     }
   };
 
-  /**
-   * Creates the final reducer.
-   * @param {object} [reducers] - This args is passed to combineReducers
-   */
-  function combine(reducers) {
+  return (reducers = {}) => {
     return combineReducers(Object.assign({}, reducers, {
       data,
       loading,
       error,
     }));
-  }
-  return combine;
+  };
 }
 
