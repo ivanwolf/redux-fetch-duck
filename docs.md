@@ -8,10 +8,10 @@
 <dd><p>Returns three action creators for a given resource.</p>
 </dd>
 <dt><a href="#thunkCreator">thunkCreator(resourceName, callApi, [dataSelector], [errorSelector])</a> ⇒ <code><a href="#Thunk">Thunk</a></code></dt>
-<dd><p>Create the fetch thunk creator. Do not forget to dispatch the thunk call at the moment of the fetch.</p>
+<dd><p>Create the fetch thunk. Do not forget to dispatch the thunk call at the moment of the fetch.</p>
 </dd>
 <dt><a href="#withFetch">withFetch(resourceName)</a> ⇒ <code>function</code></dt>
-<dd><p>Returns a High order reducer wich creates the fetching resource and merge other reducers.</p>
+<dd><p>Returns a High order reducer wich creates the fetching resource and combine other reducers.</p>
 </dd>
 </dl>
 
@@ -87,7 +87,7 @@ Failure action creator. This actions passes the error to the reducer.
 <a name="thunkCreator"></a>
 
 ## thunkCreator(resourceName, callApi, [dataSelector], [errorSelector]) ⇒ [<code>Thunk</code>](#Thunk)
-Create the fetch thunk creator. Do not forget to dispatch the thunk call at the moment of the fetch.
+Create the fetch thunk. Do not forget to dispatch the thunk call at the moment of the fetch.
 
 **Kind**: global function  
 
@@ -101,7 +101,7 @@ Create the fetch thunk creator. Do not forget to dispatch the thunk call at the 
 <a name="withFetch"></a>
 
 ## withFetch(resourceName) ⇒ <code>function</code>
-Returns a High order reducer wich creates the fetching resource and merge other reducers.
+Returns a High order reducer wich creates the fetching resource and combine other reducers.
 
 **Kind**: global function  
 

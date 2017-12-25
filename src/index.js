@@ -81,7 +81,7 @@ export const actionCreators = resourceName => {
 };
 
 /**
- * Create the fetch thunk creator. Do not forget to dispatch the thunk call at the moment of the fetch.
+ * Create the fetch thunk. Do not forget to dispatch the thunk call at the moment of the fetch.
  * @function
  * @param {string} resourceName - The name of the resource beeing fetched
  * @param {function} callApi - This function is called with the args passed to Thunk created with this method. Must return a Promise representing the response.
@@ -108,7 +108,7 @@ export const thunkCreator = (resourceName, callApi, dataSelector = null, errorSe
   };
 };
 /**
- * Returns a High order reducer wich creates the fetching resource and merge other reducers.
+ * Returns a High order reducer wich creates the fetching resource and combine other reducers.
  * @param {string} resourceName 
  * @return {function}
  */
