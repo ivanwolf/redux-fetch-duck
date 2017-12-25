@@ -11,7 +11,7 @@
 <dd><p>Create the fetch thunk. Do not forget to dispatch the thunk call at the moment of the fetch.</p>
 </dd>
 <dt><a href="#withFetch">withFetch(resourceName)</a> ⇒ <code>function</code></dt>
-<dd><p>Returns a High order reducer wich creates the fetching resource and combine other reducers.</p>
+<dd><p>Returns wrap combineReducers. I adds loading, data and error reducers.</p>
 </dd>
 </dl>
 
@@ -101,24 +101,13 @@ Create the fetch thunk. Do not forget to dispatch the thunk call at the moment o
 <a name="withFetch"></a>
 
 ## withFetch(resourceName) ⇒ <code>function</code>
-Returns a High order reducer wich creates the fetching resource and combine other reducers.
+Returns wrap combineReducers. I adds loading, data and error reducers.
 
 **Kind**: global function  
 
 | Param | Type |
 | --- | --- |
 | resourceName | <code>string</code> | 
-
-<a name="withFetch..combine"></a>
-
-### withFetch~combine([reducers])
-Creates the final reducer.
-
-**Kind**: inner method of [<code>withFetch</code>](#withFetch)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [reducers] | <code>object</code> | This args is passed to combineReducers |
 
 <a name="Action"></a>
 
