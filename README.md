@@ -112,6 +112,9 @@ The new initial state will be
   }
 }
 ```
+## API
+
+You can find the api documentation [here](https://github.com/ivanwolf15/redux-fetch-duck/blob/master/docs.md)
 
 ## Motivation
 
