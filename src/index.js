@@ -1,7 +1,31 @@
 import { combineReducers } from 'redux';
 /**
- * Return action types given a resource name
+ * @typedef {object} Action
+ * @property {string} type The type of de action
+ * @property {object|error} [payload] The data asociated to de action
+ * @property {boolean} [error] Indicates if the payload is an error
+ */
+/**
+ * @typedef {object} ActionTypes
+ * @property {string} request
+ * @property {string} success
+ * @property {string} failure
+*/
+/**
+ * @typedef {object} ActionCreators
+ * @property {function} request
+ * @property {function} success
+ * @property {function} failure
+ */
+/**
+ * @typedef {function} Thunk
+ */
+
+/**
+ * Return the three action tyoes for a given resource.
+ * @function
  * @param {string} resourceName - The name of the resource being fetched
+ * @returns {ActionTypes}
  */
 export const types = resourceName => {
   const RESOURCE = resourceName.toUpperCase();
@@ -13,20 +37,41 @@ export const types = resourceName => {
 };
 
 /**
- * Return an object with request, seccues and failure action creator
- * given a resource name
- * @param {string} resourceName 
+ * Returns three action creators for a given resource.
+ * @function
+ * @param {string} resourceName - The name of the resource.
+ * @returns {ActionCreators}
  */
 export const actionCreators = resourceName => {
   const fetchTypes = types(resourceName);
   return {
+    /**
+     * Request action creator. This actions indicates the API will be called.
+     * @function
+     * @memberof actionCreators
+     * @return {Action} 
+     */
     request: () => ({
       type: fetchTypes.request,
     }),
+    /**
+     * Success action creator. This action passes the data to the reducer. 
+     * @function
+     * @memberof actionCreators
+     * @param {object|string|number} data - The data received from the API call.
+     * @return {Action}
+     */
     success: data => ({
       type: fetchTypes.success,
       payload: data,
     }),
+    /**
+     * Failure action creator. This actions passes the error to the reducer.
+     * @function
+     * @memberof actionCreators
+     * @param {object|error} error - The error received from the response.
+     * @return {Action}
+     */
     failure: error => ({
       type: fetchTypes.failure,
       payload: error,
@@ -36,16 +81,17 @@ export const actionCreators = resourceName => {
 };
 
 /**
- * Create the fetch thunk creator
+ * Create the fetch thunk creator. Do not forget to dispatch the thunk call at the moment of the fetch.
+ * @function
  * @param {string} resourceName - The name of the resource beeing fetched
- * @param {function} callApi - This function must returns a promise wich resolve with the data object and reject to a en error object.
- * @param {function} dataSelector - Function to select the data payload from the response object
- * @param {function} errorSelector - Function to select the error payload from the response
- * @returns {function} thunkCreator - When this function is called with args and dispatched, the api is called with args.
+ * @param {function} callApi - This function is called with the args passed to Thunk created with this method. Must return a Promise representing the response.
+ * @param {function} [dataSelector] - Function to select the data payload from the response object.
+ * @param {function} [errorSelector] - Function to select the error payload from the response object.
+ * @returns {Thunk}
  */
-export function thunkCreator(resourceName, callApi, dataSelector = null, errorSelector = null) {
+export const thunkCreator = (resourceName, callApi, dataSelector = null, errorSelector = null) => {
   const actions = actionCreators(resourceName);
-  return (...args) => function (dispatch) {
+  return (...args) => (dispatch) => {
     dispatch(actions.request());
     return callApi(...args)
       .then(res => {
@@ -60,14 +106,14 @@ export function thunkCreator(resourceName, callApi, dataSelector = null, errorSe
         dispatch(actions.failure(error));
       });
   };
-}
+};
 /**
- * Returns a High order reducer wich manages the fetching resource
- * @param {String} resourceName 
+ * Returns a High order reducer wich creates the fetching resource and merge other reducers.
+ * @param {string} resourceName 
+ * @return {function}
  */
 export function withFetch(resourceName) {
   const fetchTypes = types(resourceName);
-  /** Error reducer */
   const error = (state = null, action) => {
     switch (action.type) {
     case fetchTypes.failure:
@@ -78,12 +124,6 @@ export function withFetch(resourceName) {
       return state;
     }
   };
-  /**
-   * Loading reducer, manages the loading flag
-   * @param {State} state 
-   * @param {Object} action 
-   * @returns {State}
-   */
   function loading(state = false, action) {
     switch (action.type) {
     case fetchTypes.failure:
@@ -95,7 +135,6 @@ export function withFetch(resourceName) {
       return state;
     }
   }
-  /** Data reducer */
   const data = (state = null, action) => {
     switch (action.type) {
     case fetchTypes.success:
@@ -106,8 +145,8 @@ export function withFetch(resourceName) {
   };
 
   /**
-   * Creates a new reducer. The final funcion manage the same state and error, loading and data state
-   * @param {Function} targetReducer - Reducer to be merged
+   * Creates the final reducer.
+   * @param {object} [reducers] - This args is passed to combineReducers
    */
   function combine(reducers) {
     return combineReducers(Object.assign({}, reducers, {
