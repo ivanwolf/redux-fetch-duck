@@ -9,7 +9,6 @@ export default {
     file: 'dist/index.js',
     format: 'cjs',
   },
-  sourceMap: 'inline',
   plugins: [
     commonjs(),
     resolve(),
