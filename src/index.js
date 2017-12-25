@@ -94,7 +94,7 @@ export function withFetch(resourceName) {
     default:
       return state;
     }
-  };
+  }
   /** Data reducer */
   const data = (state = null, action) => {
     switch (action.type) {
@@ -110,23 +110,19 @@ export function withFetch(resourceName) {
    * @param {Function} targetReducer - Reducer to be merged
    */
   function hor(targetReducer = null) {
-    return (state, action) => {
-      let targetState = typeof targetReducer === 'function'
-        ? targetReducer(state, action)
-        : undefined;
-      if (typeof targetReducer === 'function' && typeof targetState !== 'object') {
-        targetState = {
-          [targetReducer.name]: targetState,
-        };
-      }
-  
-      const fetchState = combineReducers({
+    if (typeof targetReducer !== 'function') {
+      return combineReducers({
         data,
         loading,
         error,
-      })(state, action);
-      return Object.assign({}, targetState, fetchState);
-    };
+      });
+    }
+    return combineReducers({
+      data,
+      loading,
+      error,
+      [targetReducer.name]: targetReducer,
+    });
   } 
   return hor;
 }
